@@ -22,7 +22,7 @@
       :data="tableData"
       style="width: 95%; margin-left:10px;">
       <el-table-column
-        prop="bookname"
+        prop="title"
         label="书名"
         width="180">
       </el-table-column>
@@ -37,17 +37,17 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="publisher"
+        prop="press"
         label="出版社"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="publishtime"
+        prop="pubTime"
         label="出版时间"
         width="180">
       </el-table-column>
       <el-table-column
-        prop="intro"
+        prop="brief"
         label="内容简介">
       </el-table-column>
     </el-table>
@@ -65,37 +65,25 @@ export default {
         },
         // 表格数据
         tableData: [
-            {
-                bookname: 'Es6 标准入门',
-                author: '阮一峰',
-                price: '60.00',
-                publisher: "电子工业出版社",
-                publishtime: '2019',
-                intro: "Quis culpa deserunt ex non."
-            }, 
-            {
-                bookname: 'Es6 标准入门',
-                author: '阮一峰',
-                price: '60.00',
-                publisher: "电子工业出版社",
-                publishtime: '2019',
-                intro: "Quis culpa deserunt ex non."
-            }, 
-            {
-                bookname: 'Es6 标准入门',
-                author: '阮一峰',
-                price: '60.00',
-                publisher: "电子工业出版社",
-                publishtime: '2019',
-                intro: "Quis culpa deserunt ex non."
-            }, 
-          ]
+
+        ]
       }
     },
     methods: {
       // 查询
       onSubmit() {
-        console.log('submit!');
+        // 构建请求参数
+        let url = `http://localhost:9033/api/bookdes/getbookdes`;
+        this.axios.get(url,{params: {title:this.formInline.word}})
+        .then(res => {
+          // 处理brief避免过长
+          res.data.data.forEach((value)=>{  
+            value.brief = value.brief.substring(0,100)+"......";
+          })
+          this.tableData = res.data.data;
+        }, res => {
+          console.log(res);
+        })
       },
       exportFile(){
           console.log('导出文件');

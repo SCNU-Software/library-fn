@@ -71,7 +71,8 @@ export default {
                 price: '60.00',
                 publisher: "电子工业出版社",
                 publishtime: '2019',
-                intro: "Quis culpa deserunt ex non."
+                intro: `Quis culpa deserunt ex non.Duis pariatur amet mollit ex
+                cepteur do mollit occaecat non duis eu enim fugiat officia sunt. Non occaecat non laboris sit cillum elit non duis. Consectetur pariatur nostrud et duis et pariatur culpa esse labore laborum anim laborum duis. Sit adipisicing nisi id culpa veniam quis occaecat sunt cillum non. Irure laboris occaecat anim eu excepteur ad amet.`
             }, 
             {
                 bookname: 'Es6 标准入门',

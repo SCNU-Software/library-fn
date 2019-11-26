@@ -7,8 +7,9 @@
             <el-col :span="20" :push="2">
                 <el-upload
                 class="upload-box"
+                name="excelFile"
                 drag
-                action="https://jsonplaceholder.typicode.com/posts/"
+                action="http://localhost:9033/api/excel/bookinfo"
                 :limit="1"
                 multiple>
                     <i class="el-icon-upload"></i>

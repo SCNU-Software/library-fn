@@ -4,12 +4,12 @@
         <el-col :span="6">
             <span class="title">华南师范大学图书馆后台系统</span>
         </el-col>
-        <el-col :span="6" :offset="12">
+        <!-- <el-col :span="6" :offset="12">
             <el-row type="flex" :gutter="20" justify="end">
                 <el-col :span="6">消息列表</el-col >
                 <el-col :span="6">管理员</el-col >
             </el-row>
-        </el-col>
+        </el-col> -->
         
 
     </el-row>

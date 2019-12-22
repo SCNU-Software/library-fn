@@ -1,11 +1,11 @@
 <!-- 主页侧栏组件 -->
 <template>
     <el-menu :default-active="this.$route.path" router class="el-menu-vertical-demo" @select="handleSelect">
-        <el-menu-item index="/">
+        <el-menu-item index="/dashboard/search">
             <i class="el-icon-search"></i>
             <span slot="title">查找书籍</span>
         </el-menu-item>
-        <el-menu-item index="/importfile">
+        <el-menu-item index="/dashboard/importfile">
             <i class="el-icon-upload"></i>
             <span slot="title">批量导入</span>
         </el-menu-item>

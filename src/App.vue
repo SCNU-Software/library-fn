@@ -1,3 +1,4 @@
+<!-- 根组件 -->
 <template>
   <div id="app">
     <!-- <div id="nav">
@@ -10,26 +11,18 @@
       <el-header>
         <Header></Header>
       </el-header>
-      <el-container>
-        <el-aside width="250px">
-          <!-- 侧栏 -->
-          <SideBar></SideBar>
-        </el-aside>
-        <el-container class="el-main-wrapper">
-          <el-main class="pull-left"><router-view></router-view></el-main>
-        </el-container>
-      </el-container>
+
+      <router-view></router-view>
+
     </el-container>
-
-
 
 
   </div>
 </template>
 
 <script>
-import SideBar from '@/components/SideBar.vue';
-import Header from '@/components/Header.vue';
+import Header from '@/components/Header.vue'
+
 export default {
   data() {
       return {
@@ -40,7 +33,6 @@ export default {
     
   },
   components:{
-    SideBar,
     Header
   }
 }

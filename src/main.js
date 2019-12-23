@@ -5,12 +5,14 @@ import App from './App.vue'
 import router from './router'
 import axios from 'axios'
 import Vueaxios from 'vue-axios'
+import qs from 'qs'
 
 Vue.config.productionTip = true
 // axios 默认开启携带cookie
 // axios.defaults.withCredentials = false
 Vue.use(ElementUI);
 Vue.use(Vueaxios, axios)
+Vue.prototype.$qs = qs;
 new Vue({
   router,
   render: h => h(App)

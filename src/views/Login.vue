@@ -41,7 +41,7 @@ export default {
                 username: this.formData.username,
                 password: this.formData.password
             };
-            this.axios.post('http://10.252.13.38:9033/api/login',
+            this.axios.post('http://fisher.lazybone.xyz/library/api/login',
             this.$qs.stringify(postData),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
             .then(function (res) {

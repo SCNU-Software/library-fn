@@ -108,7 +108,8 @@ export default {
       // 查询
       onSubmit() {
         // 构建请求参数
-        let url = `http://localhost:9033/api/bookdes/getbookdes`;
+        // let url = `http://localhost:9033/api/bookdes/getbookdes`;
+        let url = `http://fisher.lazybone.xyz/library/api/bookdes/getbookdes`;
         // 发送请求
         this.axios.get(
           url,{
@@ -129,7 +130,8 @@ export default {
       },
       exportFile(){
         // 构建请求参数
-        let url = `http://localhost:9033/api/excel/bookinfo`;
+        // let url = `http://localhost:9033/api/excel/bookinfo`;
+        let url = `http://fisher.lazybone.xyz/library/api/excel/bookinfo`;
         // 发送请求
         this.axios.get(
           url,{

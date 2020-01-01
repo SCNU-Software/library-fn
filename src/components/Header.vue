@@ -2,7 +2,7 @@
 <template>
     <el-row :gutter="20">
         <el-col :span="6">
-            <span class="title">华南师范大学图书馆后台系统</span>
+            <span class="title">图书馆后台系统</span>
         </el-col>
         <!-- <el-col :span="6" :offset="12">
             <el-row type="flex" :gutter="20" justify="end">

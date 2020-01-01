@@ -9,6 +9,10 @@
             <i class="el-icon-upload"></i>
             <span slot="title">批量导入</span>
         </el-menu-item>
+        <el-menu-item index="/dashboard/addone">
+            <i class="el-icon-circle-plus-outline"></i>
+            <span slot="title">单项导入</span>
+        </el-menu-item>
     </el-menu>
 </template>
 

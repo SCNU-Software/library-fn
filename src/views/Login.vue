@@ -11,9 +11,7 @@
                 <el-form-item label="密码">
                     <el-input type="password" v-model="formData.password" @keyup.enter.native="handleLogin" ></el-input>
                 </el-form-item>
-                <!-- <el-form-item> -->
-                    <el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button>
-                <!-- </el-form-item> -->
+                <el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button>
             </el-form>
         </div>
     </el-container>

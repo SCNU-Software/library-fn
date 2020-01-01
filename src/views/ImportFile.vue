@@ -35,6 +35,5 @@ export default {
     }
     .upload-box{
         display: block;
-
     }
 </style>

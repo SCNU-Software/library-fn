@@ -29,6 +29,11 @@ export default new Router({
           name: 'importfile',
           component: () => import('./views/ImportFile.vue')
         },
+        {
+          path: 'addone',
+          name: 'addone',
+          component: () => import('./views/AddOne.vue')
+        },
       ]
     },
     // {

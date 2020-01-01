@@ -3,13 +3,13 @@
     <el-container class="flex-box">
         <div class="box" >
             <el-form label-position="left" label-width="80px" :model="formData">
-                <el-alert title="登录成功" type="success" show-icon class="alert" :class="{hidden: hideLoginSucc}"></el-alert>
+                <el-alert :title="`登录成功,将自动跳转(${second})`" type="success" show-icon class="alert" :class="{hidden: hideLoginSucc}"></el-alert>
                 <el-alert title="用户名或密码错误" type="error" show-icon class="alert" :class="{hidden: hidePassErr}"></el-alert>
                 <el-form-item label="用户名">
                     <el-input v-model="formData.username"></el-input>
                 </el-form-item>
                 <el-form-item label="密码">
-                    <el-input type="password" v-model="formData.password" ></el-input>
+                    <el-input type="password" v-model="formData.password" @keyup.enter.native="handleLogin" ></el-input>
                 </el-form-item>
                 <!-- <el-form-item> -->
                     <el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button>
@@ -31,7 +31,9 @@ export default {
         // 密码错误提示
         hidePassErr: true,
         // 登录成功提示
-        hideLoginSucc: true
+        hideLoginSucc: true,
+        // 自动成功跳转秒数
+        second: 1
       };
     },
     methods:{
@@ -52,6 +54,7 @@ export default {
                     self.hidePassErr = true;
                     self.hideLoginSucc = false;
                     setTimeout(() => {
+                        self.second--;
                         self.$router.push('/dashboard');
                     }, 1000);
                 }

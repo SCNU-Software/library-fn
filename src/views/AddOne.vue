@@ -67,7 +67,7 @@ export default {
     methods:{
         onAddOne(){
             console.log(this.form);
-            if (!this.form.title || !this.form.author || !this.form.price) {
+            if (!this.form.title || !this.form.author || !this.form.price || !this.form.press || !this.form.pubTime) {
                 this.$message({
                     type: 'warning',
                     showClose: true,
@@ -75,8 +75,8 @@ export default {
                 });
                 return;
             }
-            // this.axios.post('http://fisher.lazybone.xyz/library/api/bookdes/addbookdes',
-            this.axios.post('http://10.252.14.147:9033/api/bookdes/addbookdes',
+            this.axios.post('http://fisher.lazybone.xyz/library/api/bookdes/addbookdes',
+            // this.axios.post('http://10.252.14.147:9033/api/bookdes/addbookdes',
             this.$qs.stringify({
                 title: this.form.title,
                 author: this.form.author,
@@ -94,14 +94,16 @@ export default {
                     this.$message({
                         type: 'success',
                         showClose: true,
-                        message: '成功添加单项书籍信息.'
+                        message: '成功添加单项书籍信息.',
+                        offset: 100
                     });
                 // 否则提示添加失败
                 }else{
                     this.$message({
                         type: 'error',
                         showClose: true,
-                        message: '添加信息失败.'
+                        message: '添加信息失败.',
+                        offset: 100
                     });
                 }
             }).catch((err) => {

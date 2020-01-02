@@ -3,8 +3,8 @@
     <el-container class="flex-box">
         <div class="box" >
             <el-form label-position="left" label-width="80px" :model="formData">
-                <el-alert :title="`登录成功,将自动跳转(${second})`" type="success" show-icon class="alert" :class="{hidden: hideLoginSucc}"></el-alert>
-                <el-alert title="用户名或密码错误" type="error" show-icon class="alert" :class="{hidden: hidePassErr}"></el-alert>
+                <!-- <el-alert :title="`登录成功,将自动跳转(${second})`" type="success" show-icon class="alert" :class="{hidden: hideLoginSucc}"></el-alert> -->
+                <!-- <el-alert title="用户名或密码错误" type="error" show-icon class="alert" :class="{hidden: hidePassErr}"></el-alert> -->
                 <el-form-item label="用户名">
                     <el-input v-model="formData.username"></el-input>
                 </el-form-item>
@@ -26,12 +26,12 @@ export default {
           username: '',
           password: '',
         },
-        // 密码错误提示
-        hidePassErr: true,
-        // 登录成功提示
-        hideLoginSucc: true,
-        // 自动成功跳转秒数
-        second: 1
+        // // 密码错误提示
+        // hidePassErr: true,
+        // // 登录成功提示
+        // hideLoginSucc: true,
+        // // 自动成功跳转秒数
+        // second: 1
       };
     },
     methods:{
@@ -49,17 +49,30 @@ export default {
                 // 登录成功
                 if(res.data.code == 200){
                     // console.log('登录成功');
-                    self.hidePassErr = true;
-                    self.hideLoginSucc = false;
+                    // self.hidePassErr = true;
+                    // self.hideLoginSucc = false;
+                    self.$message({
+                        type: 'success',
+                        showClose: true,
+                        message: '登录成功，将自动跳转.',
+                        offset: 100,
+                        duration: 1500
+                    });
                     setTimeout(() => {
-                        self.second--;
+                        // self.second--;
                         self.$router.push('/dashboard');
                     }, 1000);
                 }
                 // 登录失败
-                else if (res.data.code == 405){
+                else {
                     // console.log('用户名或密码错误',self);
-                    self.hidePassErr = false;
+                    // self.hidePassErr = false;
+                    self.$message({
+                        type: 'error',
+                        showClose: true,
+                        message: '用户名或密码错误.',
+                        offset: 100
+                    });
                 }
             })
             .catch(function (error) {

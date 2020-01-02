@@ -41,10 +41,11 @@ export default {
                 username: this.formData.username,
                 password: this.formData.password
             };
-            this.axios.post('http://fisher.lazybone.xyz/library/api/login',
-            this.$qs.stringify(postData),
-            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}})
-            .then(function (res) {
+            this.axios.post(
+                'http://fisher.lazybone.xyz/library/api/login',
+                this.$qs.stringify(postData),
+                {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+            ).then(function (res) {
                 // console.log(res);
                 // 登录成功
                 if(res.data.code == 200){

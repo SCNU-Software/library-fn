@@ -25,7 +25,7 @@ export default {
     methods:{
         handleLogout(){
             console.log('Logout');
-            this.$router.push('/');
+            this.$router.replace('/');
         }
     }
 }

@@ -11,14 +11,14 @@
                   <el-input v-model="formInline.word" placeholder="书名/作者/定价/出版社"></el-input>
               </el-form-item>
               <el-form-item>
-                  <el-button type="primary" icon="el-icon-search" @click="onSubmit">查询</el-button>
+                  <el-button type="primary" icon="el-icon-search" @click="onSearch" @keyup.enter.native="onSearch">查询</el-button>
               </el-form-item>
               <!-- 导出Excel按钮 -->
               <el-button type="success" @click="exportFile" icon="el-icon-document">导出Excel</el-button>
           </el-form>
         </el-col>
     </el-row>
-
+    <!-- 表格 -->
     <el-table
       :data="tableData"
       style="width: 98%;">
@@ -43,7 +43,7 @@
         width="180">
       </el-table-column>
       <el-table-column
-        prop="pubTime"
+        prop="pubTimeFormat"
         label="出版时间"
         width="180">
       </el-table-column>
@@ -56,8 +56,46 @@
           <span>{{scope.brief | ellipsis}}</span>
         </template> -->
       </el-table-column>
+      <el-table-column label="操作" width="180">
+        <template slot-scope="scope">
+          <el-button
+            size="mini"
+            @click="handleEdit(scope)">编辑</el-button>
+          <el-button
+            size="mini"
+            type="danger"
+            @click="handleDelete(scope)">删除</el-button>
+        </template>
+      </el-table-column>
     </el-table>
 
+    <!-- 修改信息对话框 -->
+    <el-dialog title="修改书本信息" :visible.sync="dialogFormVisible">
+      <el-form :model="form" label-position="left" label-width="12%" >
+        <el-form-item label="书名" >
+          <el-input v-model="form.title" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="作者" >
+          <el-input v-model="form.author" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="价格" >
+          <el-input v-model.number="form.price" autocomplete="off"></el-input>
+        </el-form-item>
+        <el-form-item label="出版社" prop="press">
+            <el-input v-model="form.press"></el-input>
+        </el-form-item>
+        <el-form-item label="出版时间" prop="pubTime">
+            <el-date-picker type="date" style="width: 100%;" placeholder="选择日期" v-model="form.pubTime"></el-date-picker>
+        </el-form-item>
+        <el-form-item label="内容简介">
+            <el-input type="textarea" v-model="form.brief" :rows="5"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="dialogFormVisible = false">取 消</el-button>
+        <el-button type="primary" @click="handleAlter">确 定</el-button>
+      </div>
+    </el-dialog>
 </div>
 </template>
 
@@ -71,63 +109,41 @@ export default {
           word: ''
         },
         // 表格数据
-        tableData: [
-            // {
-            //     title: 'Es6 标准入门',
-            //     author: '阮一峰',
-            //     price: '60.00',
-            //     press: "电子工业出版社",
-            //     pubTime: '2019',
-            //     brief: `前端页面实现输入文字过多时 ,超出部分用省略号显示 08-06 阅读数 
-            //     1021 ....关于结束时间不能大于开始时间的问题,在elementui里我们用官方提供的disab...前端页
-            //     面实现输入文字过多时 ,超出部分用省略号显示 08-06 阅读数 1021 ....关于结束时间不能大于开
-            //     始时间的问题,在elementui里我们用官方提供的disab...前端页面实现输入文字过多时 ,超出部分
-            //     用省略号显示 08-06 阅读数 1021 ....关于结束时间不能大于开始时间的问题,在elementui里我们用官方提供的disab...`
-            // }, 
-            // {
-            //     title: 'Es6 标准入门',
-            //     author: '阮一峰',
-            //     price: '60.00',
-            //     press: "电子工业出版社",
-            //     pubTime: '2019',
-            //     brief: `Quis culpa deserunt ex non.Duis pariatur amet mollit ex
-            //     cepteur do mollit occaecat non duis eu enim fugiat officia sunt. Non occaecat non laboris sit cillum elit non duis. Consectetur pariatur nostrud et duis et pariatur culpa esse labore laborum anim laborum duis. Sit adipisicing nisi id culpa veniam quis occaecat sunt cillum non. Irure laboris occaecat anim eu excepteur ad amet.`
-            // }, 
-            // {
-            //     title: 'Es6 标准入门',
-            //     author: '阮一峰',
-            //     price: '60.00',
-            //     press: "电子工业出版社",
-            //     pubTime: '2019',
-            //     brief: "Quis culpa deserunt ex non."
-            // }, 
-          ]
+        tableData: [],
+        // 是否显示修改信息模态框
+        dialogFormVisible: false,
+        formLabelWidth: '100px',
+        // 修改信息模态框中数据
+        form:{}
       }
     },
     methods: {
       // 查询
-      onSubmit() {
+      onSearch() {
         // 构建请求参数
         // let url = `http://localhost:9033/api/bookdes/getbookdes`;
         let url = `http://fisher.lazybone.xyz/library/api/bookdes/getbookdes`;
         // 发送请求
         this.axios.get(
-          url,{
+          url,
+          {
             params: {
               title:this.formInline.word
             }
           }
-        )
-        .then(res => {
-          // 处理brief避免过长
+        ).then(res => {
+          // console.log(res.data.data);
+          // 日期格式化
           res.data.data.forEach((value)=>{  
-            value.pubTime = moment(value.pubTime).format("YYYY-MM-DD");
+            value.pubTimeFormat = moment(value.pubTime).format("YYYY-MM-DD");
           })
+          // 赋值
           this.tableData = res.data.data;
-        }, res => {
-          console.log(res);
+        }, err => {
+          console.log(err);
         })
       },
+      // 导出为Excel文件
       exportFile(){
         // 构建请求参数
         // let url = `http://localhost:9033/api/excel/bookinfo`;
@@ -147,6 +163,70 @@ export default {
           }
         }, res => {
           console.log(res);
+        })
+      },
+      // 删除表格中元素
+      handleDelete(scope){
+        // 书本id 该书在表格中的index
+        const bookId = scope.row.id;
+        const bookIndex = scope.$index;
+        this.$confirm('此操作将永久删除该书本信息, 是否继续?', '提示', {
+          confirmButtonText: '确定删除',
+          cancelButtonText: '取消',
+          type: 'warning'
+        }).then(() => {
+          // 删除逻辑
+          return this.axios.post(
+            'http://fisher.lazybone.xyz/library/api/bookdes/deletebookdes',
+            this.$qs.stringify({
+              id: bookId
+            }),
+            {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+          )
+        }).then((res) => {
+          if (res.data.code == 200) {
+            this.tableData.splice(bookIndex,1);
+              this.$message({
+                type: 'success',
+                message: '删除成功!'
+              });
+            }
+            else{
+              this.$message({
+                type: 'error',
+                message: '删除失败'
+              });
+            }
+        }).catch(() => {
+          this.$message({
+            type: 'info',
+            message: '已取消删除'
+          });          
+        })
+      },
+      // 编辑表格中元素信息
+      handleEdit(scope){
+        // 要修改的row
+        const book = scope.row;
+        this.dialogFormVisible = true;
+        this.form = book;
+      },
+      // 修改表格中元素信息
+      handleAlter(){
+        this.axios.post(
+          'http://fisher.lazybone.xyz/library/api/bookdes/alterbookdes',
+          this.$qs.stringify(this.form),
+          {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
+        ).then((res) => {
+            console.log(res);
+            if(res.data.code == 200){
+              this.dialogFormVisible = false;
+              this.$message({
+                type: 'success',
+                message: '修改信息成功!'
+              });
+              this.onSearch();
+            }
         })
       }
     }

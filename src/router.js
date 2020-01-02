@@ -13,26 +13,41 @@ export default new Router({
     },
     {
       path:'/login',
-      component: () => import('./views/Login.vue')
+      component: () => import('./views/Login.vue'),
+      meta: {
+        keepAlive: false //true显示头部
+      },
     },
     {
       path:'/dashboard',
       component: () => import('./views/Dashboard.vue'),
+      meta: {
+        keepAlive: true //true显示头部
+      },
       children: [
         {
           path: 'search',
           name: 'search',
-          component: () => import('./views/Search.vue')
+          component: () => import('./views/Search.vue'),
+          meta: {
+            keepAlive: true //true显示头部
+          },
         },
         {
           path: 'importfile',
           name: 'importfile',
-          component: () => import('./views/ImportFile.vue')
+          component: () => import('./views/ImportFile.vue'),
+          meta: {
+            keepAlive: true //true显示头部
+          },
         },
         {
           path: 'addone',
           name: 'addone',
-          component: () => import('./views/AddOne.vue')
+          component: () => import('./views/AddOne.vue'),
+          meta: {
+            keepAlive: true //true显示头部
+          },
         },
       ]
     },

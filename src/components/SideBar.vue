@@ -22,7 +22,7 @@ export default {
         // 侧栏
         handleSelect(index,indexPath){
             // console.log(index,indexPath)
-            console.log(this.$route)
+            // console.log(this.$route);
         }
     }
 }

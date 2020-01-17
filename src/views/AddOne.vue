@@ -66,7 +66,7 @@ export default {
     },
     methods:{
         onAddOne(){
-            console.log(this.form);
+            // console.log(this.form);
             if (!this.form.title || !this.form.author || !this.form.price || !this.form.press || !this.form.pubTime) {
                 this.$message({
                     type: 'warning',
@@ -88,7 +88,7 @@ export default {
             }),
             {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
             ).then((res) => {
-                console.log(res);
+                // console.log(res);
                 // 如果添加成功，则提示成功消息
                 if (res.data.code == 200) {
                     this.$message({

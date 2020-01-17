@@ -9,9 +9,10 @@
                 class="upload-box"
                 name="excelFile"
                 drag
-                action="http://localhost:9033/api/excel/bookinfo"
+                action="http://fisher.lazybone.xyz/library/api/excel/bookinfo"
                 :limit="1"
-                multiple>
+                multiple
+                :with-credentials="true">
                     <i class="el-icon-upload"></i>
                     <div class="el-upload__text">将文件拖到此处，或<em>点击上传</em></div>
                     <div class="el-upload__tip" slot="tip">只能上传Excel文件，一次只能上传一个文件</div>

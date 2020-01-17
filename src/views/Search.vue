@@ -8,10 +8,13 @@
           <!-- 关键词输入框 -->
           <el-form :inline="true" :model="formInline" class="demo-form-inline">
               <el-form-item label="关键词">
-                  <el-input v-model="formInline.word" placeholder="书名/作者/定价/出版社"></el-input>
+                  <el-input v-model="formInline.title" placeholder="书名" @keyup.enter.native="onSearch"></el-input>
+              </el-form-item>
+              <el-form-item >
+                  <el-input v-model="formInline.author" placeholder="作者" @keyup.enter.native="onSearch"></el-input>
               </el-form-item>
               <el-form-item>
-                  <el-button type="primary" icon="el-icon-search" @click="onSearch" @keyup.enter.native="onSearch">查询</el-button>
+                  <el-button type="primary" icon="el-icon-search" @click="onSearch">查询</el-button>
               </el-form-item>
               <!-- 导出Excel按钮 -->
               <el-button type="success" @click="exportFile" icon="el-icon-document">导出Excel</el-button>
@@ -106,7 +109,8 @@ export default {
       return {
         //  关键词查询书籍
         formInline: {
-          word: ''
+          title: '',
+          author: ''
         },
         // 表格数据
         tableData: [],
@@ -128,7 +132,8 @@ export default {
           url,
           {
             params: {
-              title:this.formInline.word
+              title: this.formInline.title,
+              author: this.formInline.author
             }
           }
         ).then(res => {
@@ -152,13 +157,14 @@ export default {
         this.axios.get(
           url,{
             params: {
-              title:this.formInline.word
+              title:this.formInline.title,
+              author:this.formInline.author
             }
           }
         )
         .then(res => {
           if(res.data.code==200){
-            console.log(res.data.data[0].url);
+            // console.log(res.data.data[0].url);
             window.location.href = res.data.data[0].url;
           }
         }, res => {
@@ -218,7 +224,7 @@ export default {
           this.$qs.stringify(this.form),
           {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
         ).then((res) => {
-            console.log(res);
+            // console.log(res);
             if(res.data.code == 200){
               this.dialogFormVisible = false;
               this.$message({

@@ -19,6 +19,13 @@ export default new Router({
       },
     },
     {
+      path:'/register',
+      component: () => import('./views/Register.vue'),
+      meta: {
+        keepAlive: false //true显示头部
+      },
+    },
+    {
       path:'/dashboard',
       component: () => import('./views/Dashboard.vue'),
       meta: {

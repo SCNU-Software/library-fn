@@ -11,6 +11,9 @@
                 <el-form-item label="密码">
                     <el-input type="password" v-model="formData.password" @keyup.enter.native="handleLogin" ></el-input>
                 </el-form-item>
+                <el-form-item  class="register-line">
+                    <router-link to="register">还没有账号？赶紧去注册一个吧！</router-link>
+                </el-form-item>
                 <el-button type="primary" style="width:100%" @click="handleLogin">登录</el-button>
             </el-form>
         </div>
@@ -18,20 +21,14 @@
 </template>
 
 <script>
-
 export default {
+    name: 'Login',
     data(){
         return {
         formData: {
           username: '',
           password: '',
         },
-        // // 密码错误提示
-        // hidePassErr: true,
-        // // 登录成功提示
-        // hideLoginSucc: true,
-        // // 自动成功跳转秒数
-        // second: 1
       };
     },
     methods:{
@@ -46,12 +43,8 @@ export default {
                 this.$qs.stringify(postData),
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
             ).then(function (res) {
-                // console.log(res);
                 // 登录成功
                 if(res.data.code == 200){
-                    // console.log('登录成功');
-                    // self.hidePassErr = true;
-                    // self.hideLoginSucc = false;
                     self.$message({
                         type: 'success',
                         showClose: true,
@@ -66,8 +59,6 @@ export default {
                 }
                 // 登录失败
                 else {
-                    // console.log('用户名或密码错误',self);
-                    // self.hidePassErr = false;
                     self.$message({
                         type: 'error',
                         showClose: true,
@@ -93,11 +84,16 @@ export default {
 .box{
     /* width: 20%; */
     margin-top: -10%;
+    transform: scale(1.1);
 }
 .alert{
     margin-bottom: 15px;
 }
 .hidden{
     display: none;
+}
+.register-line{
+    margin-top: -22px;
+    margin-bottom: 0;
 }
 </style>

@@ -3,8 +3,6 @@
     <el-container class="flex-box">
         <div class="box" >
             <el-form label-position="left" label-width="80px" :model="formData">
-                <!-- <el-alert :title="`登录成功,将自动跳转(${second})`" type="success" show-icon class="alert" :class="{hidden: hideLoginSucc}"></el-alert> -->
-                <!-- <el-alert title="用户名或密码错误" type="error" show-icon class="alert" :class="{hidden: hidePassErr}"></el-alert> -->
                 <el-form-item label="用户名">
                     <el-input v-model="formData.username"></el-input>
                 </el-form-item>
@@ -42,7 +40,7 @@ export default {
                 'http://fisher.lazybone.xyz/library/api/login',
                 this.$qs.stringify(postData),
                 {headers: {'Content-Type': 'application/x-www-form-urlencoded'}}
-            ).then(function (res) {
+            ).then((res) => {
                 // 登录成功
                 if(res.data.code == 200){
                     self.$message({
@@ -52,9 +50,9 @@ export default {
                         offset: 100,
                         duration: 1500
                     });
+                    this.$store.commit('setUserName', this.formData.username);
                     setTimeout(() => {
-                        // self.second--;
-                        self.$router.push('/dashboard');
+                        self.$router.push('/dashboard/search');
                     }, 1000);
                 }
                 // 登录失败

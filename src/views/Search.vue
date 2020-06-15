@@ -28,39 +28,47 @@
       <el-table-column
         prop="title"
         label="书名"
-        width="180">
+        width="160"
+      >
       </el-table-column>
       <el-table-column
         prop="author"
         label="作者"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="price"
         label="价格(￥)"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="press"
         label="出版社"
-        width="180">
+        width="160"
+      >
       </el-table-column>
       <el-table-column
         prop="pubTimeFormat"
         label="出版时间"
-        width="180">
+      >
       </el-table-column>
       <el-table-column
         prop="brief"
         label="内容简介"
         :show-overflow-tooltip="true"
-        filter-placement="bottom">
+        filter-placement="bottom"
+        min-width="300"
+        >
         <!-- <template slot-scope="scope">
           <span>{{scope.brief | ellipsis}}</span>
         </template> -->
       </el-table-column>
-      <el-table-column label="操作" width="180">
+      <el-table-column label="操作" width="230">
         <template slot-scope="scope">
+          <el-button
+            size="mini"
+            type="primary"
+            @click="handleBuy(scope)">购买</el-button>
           <el-button
             size="mini"
             @click="handleEdit(scope)">编辑</el-button>
@@ -99,12 +107,49 @@
         <el-button type="primary" @click="handleAlter">确 定</el-button>
       </div>
     </el-dialog>
+
+    <!-- 购买书籍对话框 -->
+    <el-dialog title="购买书籍" :visible.sync="buyBookDialog">
+      <el-form :model="buyBookForm" label-position="left" label-width="12%" >
+        <el-form-item label="购买者:">
+          <el-input v-model="buyBookForm.userName" :disabled="true"></el-input>
+          <!-- {{this.buyBookForm.userName}} -->
+        </el-form-item>
+        <el-form-item label="书名：">
+          <el-input v-model="buyBookForm.bookTitle" :disabled="true"></el-input>
+          <!-- {{this.buyBookForm.bookTitle}} -->
+        </el-form-item>
+        <el-form-item label="订单价格：">
+          <el-input v-model.number="buyBookForm.price" :disabled="true"></el-input>
+          <!-- {{this.buyBookForm.price}} -->
+        </el-form-item>
+        <el-form-item label="收货地址：">
+          <el-input v-model="buyBookForm.address"></el-input>
+        </el-form-item>
+        <el-form-item label="联系电话：">
+          <el-input v-model="buyBookForm.phone"></el-input>
+        </el-form-item>
+        <el-form-item label="支付卡号：">
+          <el-input v-model="buyBookForm.card"></el-input>
+        </el-form-item>
+      </el-form>
+      <div slot="footer" class="dialog-footer">
+        <el-button @click="buyBookDialog = false">取 消</el-button>
+        <el-button type="primary" @click="handleBuyBook">确 定 下 单</el-button>
+      </div>
+    </el-dialog>
 </div>
 </template>
 
 <script>
+import api from '../api/buy.js';
+
 const moment = require('moment');
+
 export default {
+    mounted(){
+      this.onSearch();
+    },
     data() {
       return {
         //  关键词查询书籍
@@ -118,7 +163,17 @@ export default {
         dialogFormVisible: false,
         formLabelWidth: '100px',
         // 修改信息模态框中数据
-        form:{}
+        form:{},
+        // 购买书籍对话框
+        buyBookDialog: false,
+        buyBookForm: {
+          userName: 'zijunpan',
+          bookTitle: '',
+          price: 0,
+          address: '',
+          phone: '',
+          card: ''
+        }
       }
     },
     methods: {
@@ -234,6 +289,29 @@ export default {
               this.onSearch();
             }
         })
+      },
+      // 购买书籍
+      handleBuy(scope){
+        // console.log('购买', scope, scope.row);
+        this.buyBookDialog = true;
+        const book = scope.row;
+        this.buyBookForm.bookTitle = book.title;
+        this.buyBookForm.price = book.price;
+        this.buyBookForm.userName = this.$store.state.user.userName;
+      },
+      async handleBuyBook(){
+        const isComplete = Object.keys(this.buyBookForm).every(key => Boolean(this.buyBookForm[key]));
+        if(!isComplete){
+          this.$message.error('请将表单填写完整');
+          return;
+        }
+        const res = await api.buyBook(this.buyBookForm);
+        if(res.code === '200'){
+          this.$message.success('下单成功');
+          this.buyBookDialog = false;
+        }else{
+          this.$message.error(res.msg);
+        }
       }
     }
 }

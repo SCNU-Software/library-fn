@@ -1,4 +1,5 @@
 import Vue from 'vue'
+import store from './store';
 import ElementUI from 'element-ui';
 import 'element-ui/lib/theme-chalk/index.css';
 import App from './App.vue'
@@ -15,6 +16,7 @@ Vue.use(Vueaxios, axios)
 Vue.prototype.$qs = qs;
 new Vue({
   router,
+  store,
   render: h => h(App)
 }).$mount('#app')
 // 挂载到#app上，并且把App根组件渲染替代html中的div#app

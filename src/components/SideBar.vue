@@ -13,6 +13,10 @@
             <i class="el-icon-circle-plus-outline"></i>
             <span slot="title">单项导入</span>
         </el-menu-item>
+        <el-menu-item index="/dashboard/order">
+            <i class="el-icon-s-order"></i>
+            <span slot="title">我的订单</span>
+        </el-menu-item>
     </el-menu>
 </template>
 

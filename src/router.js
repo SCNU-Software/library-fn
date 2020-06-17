@@ -56,6 +56,14 @@ export default new Router({
             keepAlive: true //true显示头部
           },
         },
+        {
+          path: 'order',
+          name: 'order',
+          component: () => import('./views/Order.vue'),
+          meta: {
+            keepAlive: true //true显示头部
+          },
+        },
       ]
     },
     // {

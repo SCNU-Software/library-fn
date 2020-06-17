@@ -148,7 +148,7 @@ const moment = require('moment');
 
 export default {
     mounted(){
-      this.onSearch();
+      // this.onSearch(); 自动查询
     },
     data() {
       return {
